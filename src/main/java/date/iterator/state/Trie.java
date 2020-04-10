@@ -1,5 +1,5 @@
 package date.iterator.state;
 
 public class Trie {
-    private ChatNode root;
+    private CharNode root = new CharNode(null, 0);
 }
