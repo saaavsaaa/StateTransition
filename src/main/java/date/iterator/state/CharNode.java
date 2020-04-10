@@ -24,6 +24,9 @@ public class CharNode {
     //原字符串长度，int数组，只有当该字符为结尾字符时有值，否则是null
     private List<Integer> originLengths = null;
 
+    // todo 保存首节点引用，便于查找最长后缀时排除，构建结束销毁
+    private CharNode topNode = null;
+
     public CharNode(final String originString, final int index, final char currentChar) {
         if (originString != null) {
             originStrings = new ArrayList<>();
@@ -106,5 +109,9 @@ public class CharNode {
 
     public List<CharNode> getSubNodes() {
         return subNodes;
+    }
+
+    public void setTopNode(CharNode topNode) {
+        this.topNode = topNode;
     }
 }
