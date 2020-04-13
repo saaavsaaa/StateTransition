@@ -12,11 +12,11 @@ public class CharNode {
     // 节点字符，root节点值为'/'
     private char value = ACConstant.Root_Value;
 
-    // 上级节点
+    // 上级节点，暂时upNode只有构建树用到了后续看看能不能销毁
     private CharNode upNode;
 
-    // todo 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉
-    private List<CharNode> subNodes;
+    // todo 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉，暂时upNode只有构建树用到了后续看看能不能销毁
+    private List<CharNode> subNodes = null;
 
     //最长子串，最长子串最长的情况是与上级节点同层次
     private CharNode largestSubStr = null;
@@ -30,6 +30,9 @@ public class CharNode {
     public CharNode(final String originString, final int index, final char currentChar) {
         if (originString != null) {
             originStrings = new ArrayList<>();
+        }
+        if (subNodes == null) {
+            subNodes = new ArrayList<>();
         }
         originStrings.add(originString);
         originIndex = index;
@@ -63,6 +66,7 @@ public class CharNode {
 
             if (each.length() == nextPosition + 1) {
                 subNode.addOriginLength(each.length());
+                subNode.clearOriginString(each);
             } else {
                 if (nextPosition == 1) {
                     subNode.setTopNode(this);
@@ -71,7 +75,14 @@ public class CharNode {
                 }
             }
         }
+        this.originStrings.clear(); //当前节点的子节点构建完毕，则当前节点不再需要原字符串
+        this.originStrings = null;
         return resultNodes.values();
+    }
+
+    private void clearOriginString(final String originString) {
+        this.originStrings.remove(originString);
+        this.subNodes = null;
     }
 
     public void addOriginString(final String originString) {
@@ -87,7 +98,7 @@ public class CharNode {
     }
 
     public void addOriginLength(int length) {
-        if (originLengths != null) {
+        if (originLengths == null) {
             originLengths = new ArrayList<>();
         }
         this.originLengths.add(length);
