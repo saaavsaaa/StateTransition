@@ -18,13 +18,13 @@ public class CharNode {
     // todo 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉
     private List<CharNode> subNodes;
 
-    //最长后缀，最长后缀最长的情况是与上级节点同层次
-    private CharNode largestSUX = null;
+    //最长子串，最长子串最长的情况是与上级节点同层次
+    private CharNode largestSubStr = null;
 
     //原字符串长度，int数组，只有当该字符为结尾字符时有值，否则是null
     private List<Integer> originLengths = null;
 
-    // todo 保存首节点引用，便于查找最长后缀时排除，构建结束销毁
+    //保存首节点引用，便于查找最长子串时排除，在每个节点的最长子串确定后销毁
     private CharNode topNode = null;
 
     public CharNode(final String originString, final int index, final char currentChar) {
@@ -38,7 +38,7 @@ public class CharNode {
 
     /*
     * 构建子节点
-    * todo 此处只构建节点，子节点的最长后缀又Trie树处理
+    * todo 此处只构建节点，子节点的最长子串由Trie树处理
     * */
     public Collection<CharNode> buildSubNode() {
         if (originStrings == null && originStrings.isEmpty()) {
@@ -63,6 +63,12 @@ public class CharNode {
 
             if (each.length() == nextPosition + 1) {
                 subNode.addOriginLength(each.length());
+            } else {
+                if (nextPosition == 1) {
+                    subNode.setTopNode(this);
+                } else {
+                    subNode.setTopNode(getTopNode());
+                }
             }
         }
         return resultNodes.values();
@@ -76,8 +82,8 @@ public class CharNode {
         this.upNode = upNode;
     }
 
-    public void setLargestSUX(CharNode largestSUX) {
-        this.largestSUX = largestSUX;
+    public void setLargestSubStr(CharNode largestSubStr) {
+        this.largestSubStr = largestSubStr;
     }
 
     public void addOriginLength(int length) {
@@ -99,8 +105,8 @@ public class CharNode {
         return upNode;
     }
 
-    public CharNode getLargestSUX() {
-        return largestSUX;
+    public CharNode getLargestSubStr() {
+        return largestSubStr;
     }
 
     public List<Integer> getOriginLengths() {
@@ -113,5 +119,9 @@ public class CharNode {
 
     public void setTopNode(CharNode topNode) {
         this.topNode = topNode;
+    }
+
+    public CharNode getTopNode() {
+        return topNode;
     }
 }
