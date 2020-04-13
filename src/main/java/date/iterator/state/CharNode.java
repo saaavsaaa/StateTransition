@@ -15,11 +15,11 @@ public class CharNode {
     // 上级节点，暂时upNode只有构建树用到了后续看看能不能销毁
     private CharNode upNode;
 
-    // todo 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉，暂时upNode只有构建树用到了后续看看能不能销毁
+    // 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉，暂时upNode只有构建树用到了后续看看能不能销毁
     private List<CharNode> subNodes = null;
 
     //最长子串，最长子串最长的情况是与上级节点同层次
-    private CharNode largestSubStr = null;
+    private CharNode largestStrSub = null;
 
     //原字符串长度，int数组，只有当该字符为结尾字符时有值，否则是null
     private List<Integer> originLengths = null;
@@ -30,14 +30,24 @@ public class CharNode {
     public CharNode(final String originString, final int index, final char currentChar) {
         if (originString != null) {
             originStrings = new ArrayList<>();
+            originStrings.add(originString);
         }
-        if (subNodes == null) {
-            subNodes = new ArrayList<>();
-        }
-        originStrings.add(originString);
         originIndex = index;
         value = currentChar;
     }
+
+    /*private void addSubNode(Map<Character, CharNode> resultNodes) {
+
+        if (resultNodes.containsKey(nextChar)) {
+            subNode = resultNodes.get(nextChar);
+            subNode.addOriginString(each);
+        } else {
+            subNode = new CharNode(each, nextPosition, nextChar);
+            subNode.setUpNode(this);
+            this.addSubNodes(subNode);
+            resultNodes.put(nextChar, subNode);
+        }
+    }*/
 
     /*
     * 构建子节点
@@ -60,7 +70,7 @@ public class CharNode {
             } else {
                 subNode = new CharNode(each, nextPosition, nextChar);
                 subNode.setUpNode(this);
-                this.subNodes.add(subNode);
+                this.addSubNodes(subNode);
                 resultNodes.put(nextChar, subNode);
             }
 
@@ -85,16 +95,23 @@ public class CharNode {
         this.subNodes = null;
     }
 
+    public void addSubNodes(final CharNode node) {
+        if (subNodes == null) {
+            subNodes = new ArrayList<>();
+        }
+        this.subNodes.add(node);
+    }
+
     public void addOriginString(final String originString) {
         this.originStrings.add(originString);
     }
 
-    public void setUpNode(CharNode upNode) {
+    public void setUpNode(final CharNode upNode) {
         this.upNode = upNode;
     }
 
-    public void setLargestSubStr(CharNode largestSubStr) {
-        this.largestSubStr = largestSubStr;
+    public void setLargestStrSub(CharNode largestStrSub) {
+        this.largestStrSub = largestStrSub;
     }
 
     public void addOriginLength(int length) {
@@ -116,8 +133,8 @@ public class CharNode {
         return upNode;
     }
 
-    public CharNode getLargestSubStr() {
-        return largestSubStr;
+    public CharNode getLargestStrSub() {
+        return largestStrSub;
     }
 
     public List<Integer> getOriginLengths() {
