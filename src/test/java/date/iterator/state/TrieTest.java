@@ -6,7 +6,7 @@ import org.junit.Test;
 public class TrieTest {
     @Test
     public void testBuildTree() {
-        String[] ss = new String[] {"abcde", "ade"};
+        String[] ss = new String[] {"abcde", "ade", "abc", "dee", "eade"};
         Trie trie = new Trie(ss);
         trie.build();
         TrieTestUtils.printNodes(trie.getRoot());

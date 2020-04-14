@@ -39,7 +39,7 @@ public class CharNode {
 
     /*
     * 构建子节点
-    * todo 此处只构建节点，子节点的最长子串由Trie树处理
+    * 此处只构建节点，子节点的最长子串由Trie树处理
     * */
     public Map<Character, CharNode> buildSubNode() {
         if (originStrings == null || originStrings.isEmpty()) {
@@ -79,10 +79,11 @@ public class CharNode {
 
     private void clearOriginString(final String originString) {
         this.originStrings.remove(originString);
-        // this.sub_Nodes = null;
-
-        this.subNodes.clear();
-        this.subNodes = null;
+        if (this.originStrings.isEmpty()) {
+            this.subNodes.clear();
+            this.subNodes = null;
+            this.originStrings = null;
+        }
     }
 
     public void addSubNode(char c, final CharNode node) {
@@ -95,10 +96,6 @@ public class CharNode {
 
     public void addOriginString(final String originString) {
         this.originStrings.add(originString);
-    }
-
-    public void setUpNode(final CharNode upNode) {
-        this.upNode = upNode;
     }
 
     public void setLargestStrSub(CharNode largestStrSub) {
@@ -136,9 +133,9 @@ public class CharNode {
         return subNodes;
     }
 
-    /*public List<CharNode> getSub_Nodes() {
-        return sub_Nodes;
-    }*/
+    public void setUpNode(final CharNode upNode) {
+        this.upNode = upNode;
+    }
 
     public void setTopNode(CharNode topNode) {
         this.topNode = topNode;

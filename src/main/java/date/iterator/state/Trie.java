@@ -36,7 +36,7 @@ public class Trie {
             if (eachSubNodes != null) {
                 currentLevelNodes.putAll(eachSubNodes);
             }
-            each.setUpNode(null); // todo 销毁对上级节点的引用，之后如果发现有用，就去掉这句
+             each.setUpNode(null); // todo 销毁对上级节点的引用，之后如果发现有用，就去掉这句
         }
         if (!currentLevelNodes.isEmpty()) {
             for (CharNode subNode : currentLevelNodes.values()) {
@@ -62,7 +62,7 @@ public class Trie {
             // 如果直接上级无最长子串，直接匹配第一级节点，因为如果除第一级节点外还可能成为当前节点的子串，那么一定可以通过直接上级的子串找到
             if (root.getSubNodes().containsKey(currentNode.getValue())) {
                 CharNode largest = root.getSubNodes().get(currentNode.getValue());
-                if (largest.equals(currentNode.getTopNode())) {
+                if (!largest.equals(currentNode.getTopNode())) {
                     currentNode.setTopNode(null);
                     return largest;
                 }

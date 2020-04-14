@@ -30,7 +30,8 @@ public class TrieTestUtils {
                 System.out.println(charNode.getValue() + ":" + charNode.getOriginIndex() + ":" + charNode.getOriginLengths());
             }
             if (charNode.getLargestStrSub() != null) {
-                System.out.println("LargestStrSub:" + charNode.getLargestStrSub().getValue());
+                System.out.print("LargestStrSub:");
+                printToRoot(charNode.getLargestStrSub());
                 System.out.println();
             }
         }
@@ -39,5 +40,12 @@ public class TrieTestUtils {
         }
         levelNodes.forEach(nodeQueue::offer);
         loopShowing(nodeQueue);
+    }
+
+    private static void printToRoot(CharNode node) {
+        while (node.getUpNode() != null) {
+            System.out.print(" < " + node.getValue());
+            node = node.getUpNode();
+        }
     }
 }
