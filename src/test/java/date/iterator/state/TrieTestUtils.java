@@ -10,7 +10,7 @@ public class TrieTestUtils {
     public static void printNodes(final CharNode node) {
         System.out.println(node.getValue() + ":" + node.getOriginIndex());
         Queue<CharNode> nodeQueue = new LinkedList<>();
-        Collection<CharNode> showing = node.getSubNodes();
+        Collection<CharNode> showing = node.getSubNodes().values();
         showing.forEach(nodeQueue::offer);
         loopShowing(nodeQueue);
     }
@@ -19,12 +19,19 @@ public class TrieTestUtils {
         Collection<CharNode> levelNodes = new ArrayList<>();
         while (!nodeQueue.isEmpty()) {
             CharNode charNode = nodeQueue.poll();
-            Collection<CharNode> subShowing = charNode.getSubNodes();
+            Collection<CharNode> subShowing = null;
+            if (charNode.getSubNodes() != null) {
+                subShowing = charNode.getSubNodes().values();
+            }
             if (subShowing != null) {
                 levelNodes.addAll(subShowing);
                 System.out.println(charNode.getValue() + ":" + charNode.getOriginIndex());
             } else {
                 System.out.println(charNode.getValue() + ":" + charNode.getOriginIndex() + ":" + charNode.getOriginLengths());
+            }
+            if (charNode.getLargestStrSub() != null) {
+                System.out.println("LargestStrSub:" + charNode.getLargestStrSub().getValue());
+                System.out.println();
             }
         }
         if (levelNodes.isEmpty()){

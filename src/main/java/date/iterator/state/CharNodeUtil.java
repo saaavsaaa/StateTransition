@@ -10,7 +10,7 @@ public class CharNodeUtil {
     /*
     * CharNode buildSubNode 中有类似代码，考虑要不要想办法合起来
     * */
-    public static synchronized Collection<CharNode> createSubNodes(final int index, final List<String> list) {
+    /*public static synchronized Collection<CharNode> createSubNodes(final int index, final List<String> list) {
         Map<Character, CharNode> resultNodes = new HashMap<>();
         for (String each : list) {
             char c = each.charAt(index);
@@ -25,5 +25,5 @@ public class CharNodeUtil {
             }
         }
         return resultNodes.values();
-    }
+    }*/
 }

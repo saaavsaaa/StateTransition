@@ -2,9 +2,7 @@ package date.iterator.state;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
+// 观察下print就好了，暂时先不assert
 public class TrieTest {
     @Test
     public void testBuildTree() {

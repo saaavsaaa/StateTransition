@@ -10,8 +10,8 @@ public class CharNodeTest {
         List<String> ss = Arrays.asList("abcde", "ade");
         CharNode top = new CharNode(ss.get(0), 0, 'a');
         top.addOriginString(ss.get(1));
-        Collection<CharNode> subNodes = top.buildSubNode();
-        for (CharNode eachSub : subNodes) {
+        Map<Character, CharNode> subNodes = top.buildSubNode();
+        for (CharNode eachSub : subNodes.values()) {
             System.out.println("write second:" + eachSub.getValue());
             loopSubNode(eachSub);
         }
@@ -30,7 +30,7 @@ public class CharNodeTest {
         Collection<CharNode> levelNodes = new ArrayList<>();
         for (CharNode charNode : showing) {
             nodeQueue.offer(charNode);
-            Collection<CharNode> subShowing = charNode.getSubNodes();
+            Collection<CharNode> subShowing = charNode.getSubNodes().values();
             if (subShowing != null) {
                 levelNodes.addAll(subShowing);
             }
@@ -40,7 +40,11 @@ public class CharNodeTest {
 
     // 这里只是创建，未加子串引用，不是广度遍历顺序
     private void loopSubNode(final CharNode node) {
-        Collection<CharNode> subNodes = node.buildSubNode();
+        Map<Character, CharNode> eachSubNodes = node.buildSubNode();
+        if (eachSubNodes == null) {
+            return;
+        }
+        Collection<CharNode> subNodes = eachSubNodes.values();
         for (CharNode eachSub : subNodes) {
             System.out.println("write sub value:" + eachSub.getValue());
             if (eachSub.getOriginLengths() != null) {
