@@ -18,6 +18,9 @@ public class CharNode {
     // 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉，暂时upNode只有构建树用到了后续看看能不能销毁
     private List<CharNode> subNodes = null;
 
+    // todo 思考一下是否用Map替换List
+    private Map<Character, CharNode> sub_Nodes;
+
     //最长子串，最长子串最长的情况是与上级节点同层次
     private CharNode largestStrSub = null;
 
@@ -35,19 +38,6 @@ public class CharNode {
         originIndex = index;
         value = currentChar;
     }
-
-    /*private void addSubNode(Map<Character, CharNode> resultNodes) {
-
-        if (resultNodes.containsKey(nextChar)) {
-            subNode = resultNodes.get(nextChar);
-            subNode.addOriginString(each);
-        } else {
-            subNode = new CharNode(each, nextPosition, nextChar);
-            subNode.setUpNode(this);
-            this.addSubNodes(subNode);
-            resultNodes.put(nextChar, subNode);
-        }
-    }*/
 
     /*
     * 构建子节点
@@ -70,7 +60,7 @@ public class CharNode {
             } else {
                 subNode = new CharNode(each, nextPosition, nextChar);
                 subNode.setUpNode(this);
-                this.addSubNodes(subNode);
+                this.addSubNode(subNode);
                 resultNodes.put(nextChar, subNode);
             }
 
@@ -95,11 +85,18 @@ public class CharNode {
         this.subNodes = null;
     }
 
-    public void addSubNodes(final CharNode node) {
-        if (subNodes == null) {
-            subNodes = new ArrayList<>();
+    public void addSubNode(final CharNode node) {
+        if (this.subNodes == null) {
+            this.subNodes = new ArrayList<>();
         }
         this.subNodes.add(node);
+    }
+
+    public void addSubNodes(Collection<CharNode> nodes) {
+        if (this.subNodes == null) {
+            this.subNodes = new ArrayList<>();
+        }
+        this.subNodes.addAll(nodes);
     }
 
     public void addOriginString(final String originString) {
@@ -151,5 +148,10 @@ public class CharNode {
 
     public CharNode getTopNode() {
         return topNode;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

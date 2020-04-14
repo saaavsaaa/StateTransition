@@ -1,9 +1,6 @@
 package date.iterator.state;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Trie {
     private CharNode root = new CharNode(null, -1, ACConstant.Root_Value);
@@ -16,12 +13,28 @@ public class Trie {
 
     public void build() {
         int level = 0;
-        for (String each : words) {
-            char begin = each.charAt(0); // todo 处理字符首字符相同情况，node里有类似代码
-            CharNode subNode = new CharNode(each, 0, begin);
-            root.addSubNodes(subNode);
-        }
+        root.addSubNodes(CharNodeUtil.createSubNodes(level, words)); // addTopNode();
         addSubLevel(root.getSubNodes());
+    }
+
+    // 我怀疑字符串比较少的时候这个好，但是没测试 log n
+    private void addTopNode() {
+        for (String each : words) {
+            char begin = each.charAt(0);
+            CharNode subNode = new CharNode(each, 0, begin);
+            boolean notExist = true;
+            for (CharNode node : root.getSubNodes()) {
+                if (node.getValue() != begin) {
+                    continue;
+                } else {
+                    notExist = false;
+                    node.addOriginString(each);
+                }
+            }
+            if (notExist) {
+                root.addSubNode(subNode);
+            }
+        }
     }
 
     private void addSubLevel(final List<CharNode> nodes) {
