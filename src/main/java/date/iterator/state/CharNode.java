@@ -17,8 +17,6 @@ public class CharNode {
     private CharNode upNode;
 
     // 子节点，注意循环引用，现在不确定和upNode哪个更有用，写完了看其中一个能不能去掉，暂时upNode只有构建树用到了后续看看能不能销毁
-    private List<CharNode> sub_Nodes = null;
-    
     private Map<Character, CharNode> subNodes = new HashMap<>();
 
     //最长子串，最长子串最长的情况是与上级节点同层次
@@ -49,20 +47,10 @@ public class CharNode {
         }
         int nextPosition = originIndex + 1;
 
-//        Map<Character, CharNode> resultNodes = new HashMap<>();
         for (String each : originStrings) {
             char nextChar = each.charAt(nextPosition);
 
             CharNode subNode;
-            /*if (resultNodes.containsKey(nextChar)) {
-                subNode = resultNodes.get(nextChar);
-                subNode.addOriginString(each);
-            } else {
-                subNode = new CharNode(each, nextPosition, nextChar);
-                subNode.setUpNode(this);
-                this.addSubNode(subNode);
-                resultNodes.put(nextChar, subNode);
-            }*/
             if (subNodes.containsKey(nextChar)) {
                 subNode = subNodes.get(nextChar);
                 subNode.addOriginString(each);
@@ -98,18 +86,10 @@ public class CharNode {
     }
 
     public void addSubNode(char c, final CharNode node) {
-        /*if (this.sub_Nodes == null) {
-            this.sub_Nodes = new ArrayList<>();
-        }
-        this.sub_Nodes.add(node);*/
         this.subNodes.put(node.getValue(), node);
     }
 
     public void addSubNodes(Map<Character, CharNode> nodes) {
-        /*if (this.sub_Nodes == null) {
-            this.sub_Nodes = new ArrayList<>();
-        }
-        this.sub_Nodes.addAll(nodes);*/
         this.subNodes.putAll(nodes);
     }
 

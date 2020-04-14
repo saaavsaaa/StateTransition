@@ -1,6 +1,5 @@
 package date.iterator.state;
 
-import java.util.Collection;
 import java.util.Map;
 
 public class AC {
@@ -26,11 +25,6 @@ public class AC {
         Map<Character, CharNode> searchingNodes = node.getSubNodes();
         CharNode currentNode = trie.getRoot();
         while (currentNode.getSubNodes() != null && !currentNode.getSubNodes().isEmpty()) {
-            /*for (CharNode each : searchingNodes) {
-                if (each.getValue() == input) {
-                    currentNode = each;
-                }
-            }*/
             CharNode searched = currentNode.getSubNodes().get(input);
         }
     }
