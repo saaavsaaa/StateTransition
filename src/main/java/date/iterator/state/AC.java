@@ -35,6 +35,9 @@ public class AC {
             if (currentNode.getLargestStrSub() != null) {
                 checkSubNodes(input, currentNode.getLargestStrSub(), result);
             }
+            if (currentNodes.isEmpty()) {
+                currentNodes.offer(trie.getRoot());
+            }
         }
         return result;
     }
@@ -42,8 +45,7 @@ public class AC {
     void checkSubNodes(final char input, final CharNode current, Collection<CharNode> result) {
         Map<Character, CharNode> nextPositions = current.getSubNodes();
         if (nextPositions == null) {
-            currentNodes.add(trie.getRoot());
-            return;
+            nextPositions = trie.getRoot().getSubNodes();
         }
         if (nextPositions.containsKey(input)) {
             CharNode searched = nextPositions.get(input);
@@ -51,6 +53,10 @@ public class AC {
                 return;
             }
             collectResult(searched, result);
+        } else {
+            if (trie.getRoot().getSubNodes().containsKey(input)) {
+                checkSubNodes(input, trie.getRoot(), result);
+            }
         }
     }
 

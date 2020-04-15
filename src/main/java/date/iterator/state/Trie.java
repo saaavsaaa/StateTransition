@@ -36,7 +36,7 @@ public class Trie {
             if (eachSubNodes != null) {
                 currentLevelNodes.putAll(eachSubNodes);
             }
-             each.setUpNode(null); // todo 销毁对上级节点的引用，之后如果发现有用，就去掉这句
+             each.setUpNode(null); //销毁对上级节点的引用，之后如果发现有用，就去掉这句
         }
         if (!currentLevelNodes.isEmpty()) {
             for (CharNode subNode : currentLevelNodes.values()) {

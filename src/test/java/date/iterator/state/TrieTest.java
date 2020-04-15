@@ -6,7 +6,7 @@ import org.junit.Test;
 public class TrieTest {
     //                 /
     //      a          d         e
-    //   b    d->d     e->e      a
+    //   b    d->d     e->e      a->a
     //   c    e->de    e->e      d->ab
     //   d->d                    e
     //   e->de

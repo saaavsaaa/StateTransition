@@ -42,9 +42,6 @@ public class ACTest {
         String input = "abcdeeadeeeabceadee";
         Map<String, String> actual = new HashMap<>();
         for (int i = 0; i < input.length(); i++) {
-            if (i == 14) {
-                System.out.println();
-            }
             Collection<CharNode> searched = ac.search(input.charAt(i));
             for (CharNode each : searched) {
                 for (Integer originLength : each.getOriginLengths()) {
