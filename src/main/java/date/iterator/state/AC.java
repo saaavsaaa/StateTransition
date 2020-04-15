@@ -1,9 +1,10 @@
 package date.iterator.state;
 
-import java.util.Map;
+import java.util.*;
 
 public class AC {
     private Trie trie;
+    private Queue<CharNode> currentNodes;
 
     public AC() {
 
@@ -12,58 +13,51 @@ public class AC {
     public void init(final String[] words) {
         trie = new Trie(words);
         trie.build();
+        currentNodes = new LinkedList<>();
+        currentNodes.offer(trie.getRoot());
     }
 
-    public void search(final String input) {
-        CharNode searched = trie.getRoot();
+    public Collection<CharNode> search(final String input) {
+        Collection<CharNode> result = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
-            searched = search(input.charAt(i), searched);
-            if (searched == null) {
-                searched = trie.getRoot();
-                continue;
-            }
-            if (searched.getOriginLengths() != null) {
-                for (Integer originLength : searched.getOriginLengths()) {
-                    // todo 找的不全
-                    System.out.println(searched.getValue() + " : " + originLength);
-                    System.out.println(input.substring(i + 1 - originLength, i + 1)); //extends to the character at index {@code endIndex - 1}
-                }
-            }
+            Collection<CharNode> searched = search(input.charAt(i));
+            result.addAll(searched);
         }
+        return result;
     }
 
-    /*public void search(final char input) {
-        CharNode node = trie.getRoot();
-        Map<Character, CharNode> searchingNodes = node.getSubNodes();
-        CharNode currentNode = trie.getRoot();
-        while (currentNode.getSubNodes() != null && !currentNode.getSubNodes().isEmpty()) {
-            if (currentNode.getSubNodes().containsKey(input)) {
-                CharNode searched = currentNode.getSubNodes().get(input);
-                currentNode = searched;
-            } else {
-                if (currentNode.getLargestStrSub() == null) {
-                    currentNode = trie.getRoot();
-                } else {
-                    currentNode = currentNode.getLargestStrSub();
-                }
-            }
-        }
-    }*/
-
-    public CharNode search(final char input, final CharNode currentNode) {
-        CharNode result = null;
-        if (currentNode.getSubNodes() != null && !currentNode.getSubNodes().isEmpty()) {
-            if (currentNode.getSubNodes().containsKey(input)) {
-                CharNode searched = currentNode.getSubNodes().get(input);
-                result = searched;
-            } else {
-                if (currentNode.getLargestStrSub() == null) {
-                    result = trie.getRoot();
-                } else {
-                    result = currentNode.getLargestStrSub();
-                }
+    public Collection<CharNode> search(final char input) {
+        Collection<CharNode> result = new ArrayList<>();
+        int size = currentNodes.size();
+        for (int i = 0; i < size; i++) {
+            CharNode currentNode = currentNodes.poll();
+            checkSubNodes(input, currentNode, result);
+            if (currentNode.getLargestStrSub() != null) {
+                checkSubNodes(input, currentNode.getLargestStrSub(), result);
             }
         }
         return result;
+    }
+
+    void checkSubNodes(final char input, final CharNode current, Collection<CharNode> result) {
+        Map<Character, CharNode> nextPositions = current.getSubNodes();
+        if (nextPositions == null) {
+            currentNodes.add(trie.getRoot());
+            return;
+        }
+        if (nextPositions.containsKey(input)) {
+            CharNode searched = nextPositions.get(input);
+            if (result.contains(searched)) {
+                return;
+            }
+            collectResult(searched, result);
+        }
+    }
+
+    void collectResult(final CharNode searched, Collection<CharNode> result) {
+        currentNodes.offer(searched);
+        if (searched.getOriginLengths() != null && !searched.getOriginLengths().isEmpty()) {
+            result.add(searched);
+        }
     }
 }
