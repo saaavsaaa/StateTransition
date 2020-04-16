@@ -1,7 +1,7 @@
 # StateTransition
 
-AC自动机(Aho-Corasick automaton)
-Only used for multi string matching now.
+AC自动机(Aho-Corasick automaton)   
+Only used for multi string matching now.   
 
     <dependency>
       <groupId>date.iterator.automaton</groupId>
@@ -9,10 +9,9 @@ Only used for multi string matching now.
       <version>1.0.0</version>
     </dependency>
 
-e.g.
+# e.g.
 
-
-https://github.com/saaavsaaa/StateTransition/blob/master/src/test/java/date/iterator/state/ACTest.java
+https://github.com/saaavsaaa/StateTransition/blob/master/src/test/java/date/iterator/state/ACTest.java   
 This is the only real unit test in this project.Others are all used to aid coding.
 
 -----
