@@ -2,6 +2,7 @@
 
 AC自动机(Aho-Corasick automaton)   
 Only used for multi string matching now.   
+https://mvnrepository.com/artifact/date.iterator.automaton   
 
     <dependency>
       <groupId>date.iterator.automaton</groupId>
