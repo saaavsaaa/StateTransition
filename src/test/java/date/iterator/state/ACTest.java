@@ -12,8 +12,9 @@ public class ACTest {
     public void testSearchString() {
         String[] ss = new String[] {"abcde", "ade", "abc", "dee", "eade"};
         AC ac = new AC();
+        ac.setEnableAutoLoop(true);
         ac.init(ss);
-        String input = "abcdeeadeeeabceade";
+        String input = "abcd   eeadeeeabceade";
         Collection<CharNode> searched = ac.search(input);
         searched.forEach(e -> {
             for (Integer originLength : e.getOriginLengths()) {

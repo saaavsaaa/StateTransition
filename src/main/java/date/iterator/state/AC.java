@@ -5,6 +5,9 @@ import java.util.*;
 public class AC {
     private Trie trie;
     private Queue<CharNode> currentNodes;
+    private char autoLoop = ' ';
+    private char lastInput;
+    private boolean enableAutoLoop;
 
     public AC() {
 
@@ -21,12 +24,21 @@ public class AC {
         Collection<CharNode> result = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             Collection<CharNode> searched = search(input.charAt(i));
-            result.addAll(searched);
+            if (searched != null) {
+                result.addAll(searched);
+            }
         }
         return result;
     }
 
     public Collection<CharNode> search(final char input) {
+        if (enableAutoLoop) {
+            // 例如，连续输入空格则跳过
+            if (lastInput == autoLoop && input == autoLoop) {
+                return null;
+            }
+            lastInput = input;
+        }
         Collection<CharNode> result = new ArrayList<>();
         int size = currentNodes.size();
         for (int i = 0; i < size; i++) {
@@ -65,5 +77,16 @@ public class AC {
         if (searched.getOriginLengths() != null && !searched.getOriginLengths().isEmpty()) {
             result.add(searched);
         }
+    }
+
+    public void setEnableAutoLoop(boolean enableAutoLoop) {
+        if (enableAutoLoop) {
+            lastInput = 1;
+        }
+        this.enableAutoLoop = enableAutoLoop;
+    }
+
+    public void setAutoLoop(char autoLoop) {
+        this.autoLoop = autoLoop;
     }
 }
