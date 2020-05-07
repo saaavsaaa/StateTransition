@@ -81,7 +81,7 @@ public class AC {
 
     public void setEnableAutoLoop(boolean enableAutoLoop) {
         if (enableAutoLoop) {
-            lastInput = 1;
+            lastInput = 1; // '\0001'
         }
         this.enableAutoLoop = enableAutoLoop;
     }
