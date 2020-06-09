@@ -7,8 +7,8 @@ public class TrieTest {
     //                 /
     //      a          d         e
     //   b    d->d     e->e      a->a
-    //   c    e->de    e->e      d->ab
-    //   d->d                    e
+    //   c    e->de    e->e      d->ad
+    //   d->d                    e->ade
     //   e->de
     @Test
     public void testBuildTree() {
