@@ -24,7 +24,7 @@ public class AC {
         Collection<CharNode> result = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             Collection<CharNode> searched = search(input.charAt(i));
-            if (searched != null) {
+            if (searched != null && !searched.isEmpty()) {
                 result.addAll(searched);
             }
         }

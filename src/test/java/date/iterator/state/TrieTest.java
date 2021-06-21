@@ -22,4 +22,13 @@ public class TrieTest {
     public void testSearchingLargestSUX() {
 
     }
+
+    @Test
+    public void testNodeTree() throws Exception {
+        // https://www.w3school.com.cn/tags/index.asp
+        String[] ss = new String[] {"<head>", "</head>", "<body>", "</body>"};
+        Trie trie = new Trie(ss);
+        trie.build();
+        TrieTestUtils.printNodes(trie.getRoot());
+    }
 }

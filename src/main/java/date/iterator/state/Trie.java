@@ -8,8 +8,15 @@ public class Trie {
 
     private List<String> words = new ArrayList<>();
 
+    private int longest = -1;
+
     public Trie(final String[] strings) {
         Collections.addAll(words, strings);
+        for (String each : words) {
+            if (longest < each.length()){
+                longest = each.length();
+            }
+        }
     }
 
     public void build() {
@@ -26,17 +33,36 @@ public class Trie {
                 root.addSubNode(c, subNode);
             }
         }
-        addSubLevel(root.getSubNodes());
+        addSubLevel(root.getSubNodes().values());
     }
 
+    private void addSubLevel(final Collection<CharNode> nodes) {
+        Collection<CharNode> currentLevelNodes = new ArrayList<>();
+        for (CharNode each : nodes) {
+            Map<Character, CharNode> eachSubNodes = each.buildSubNode();
+            if (eachSubNodes != null) {
+                currentLevelNodes.addAll(eachSubNodes.values());
+            }
+            each.setUpNode(null); //销毁对上级节点的引用，之后如果发现有用，就去掉这句
+        }
+        if (!currentLevelNodes.isEmpty()) {
+            for (CharNode subNode : currentLevelNodes) {
+                subNode.setLargestStrSub(searchLargestSux(subNode));
+            }
+            addSubLevel(currentLevelNodes);
+        }
+    }
+
+    @Deprecated
     private void addSubLevel(final Map<Character, CharNode> nodes) {
         Map<Character, CharNode> currentLevelNodes = new HashMap<>();
         for (CharNode each : nodes.values()) {
             Map<Character, CharNode> eachSubNodes = each.buildSubNode();
             if (eachSubNodes != null) {
+                // there is a bug cause by HashMap discard elements with the same key
                 currentLevelNodes.putAll(eachSubNodes);
             }
-             each.setUpNode(null); //销毁对上级节点的引用，之后如果发现有用，就去掉这句
+            each.setUpNode(null); //销毁对上级节点的引用，之后如果发现有用，就去掉这句
         }
         if (!currentLevelNodes.isEmpty()) {
             for (CharNode subNode : currentLevelNodes.values()) {
@@ -48,7 +74,7 @@ public class Trie {
 
     private CharNode searchLargestSux(final CharNode currentNode) {
         //当前节点如果是第一层节点，则无最长子串
-        if (currentNode.getUpNode().getValue() == ACConstant.Root_Value) {
+        if (currentNode.getUpNode() == null || currentNode.getUpNode().getValue() == ACConstant.Root_Value) {
             return null;
         }
         // 查找上层的子串

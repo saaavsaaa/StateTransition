@@ -10,7 +10,7 @@ public class CharNode {
     //在原字符串中位置，由于是广度遍历，所以多个字符串的当前字符在各自字符串的偏移量相同
     private int originIndex = -1;
 
-    // 节点字符，root节点值为'/'，如果使用Map类型子节点，字符做key，这个属性是否需要保留
+    // 节点字符，如果使用Map类型子节点，字符做key，这个属性是否需要保留
     private char value = ACConstant.Root_Value;
 
     // 上级节点，暂时upNode只有构建树用到了后续看看能不能销毁
